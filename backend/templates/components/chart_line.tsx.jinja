@@ -1,0 +1,16 @@
+<div>
+  <h4 className="text-md font-semibold text-gray-800 mb-4">{{ title }}</h4>
+  <ResponsiveContainer width="100%" height={300}>
+    <LineChart data={sampleData}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="{{ x }}" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="{{ y }}" stroke="{{ color }}" strokeWidth={2} />
+      {%- if group_by %}
+      <Line type="monotone" dataKey="{{ group_by }}" stroke="#82ca9d" strokeWidth={2} />
+      {%- endif %}
+    </LineChart>
+  </ResponsiveContainer>
+</div>
