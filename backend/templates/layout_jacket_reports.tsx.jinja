@@ -1,0 +1,140 @@
+import React, { useState } from 'react';
+import {
+  BarChart, Bar, LineChart, Line, ScatterChart, Scatter,
+  PieChart, Pie, AreaChart, Area, XAxis, YAxis, CartesianGrid,
+  Tooltip, Legend, ResponsiveContainer, Cell
+} from 'recharts';
+
+interface DashboardProps {
+  data?: any[];
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ data = [] }) => {
+  const [filtersOpen, setFiltersOpen] = useState(true);
+
+  // Sample data for demonstration
+  const sampleData = [
+    { name: 'Jan', value: 400, category: 'A' },
+    { name: 'Feb', value: 300, category: 'B' },
+    { name: 'Mar', value: 200, category: 'A' },
+    { name: 'Apr', value: 278, category: 'C' },
+    { name: 'May', value: 189, category: 'B' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Navigation - Filters */}
+      {filtersOpen && (
+        <div className="bg-white shadow-sm border-b p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex space-x-6">
+              {%- for filter in rendered_filters %}
+              <div className="flex items-center space-x-2">
+                {{ filter|safe }}
+              </div>
+              {%- endfor %}
+            </div>
+            <button 
+              onClick={() => setFiltersOpen(false)}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              Hide Filters
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="p-6">
+        {!filtersOpen && (
+          <button
+            onClick={() => setFiltersOpen(true)}
+            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Show Filters
+          </button>
+        )}
+
+        {/* Top Section with Cards Split */}
+        <div className="grid grid-cols-4 gap-6 mb-8">
+          {/* Left Cards */}
+          <div className="col-span-3 grid grid-cols-{{ (cards|length * 0.75)|int }} gap-6">
+            {%- for card in cards[:(cards|length * 0.75)|int] %}
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">{{ card|title }}</h3>
+              <div className="text-3xl font-bold text-blue-600">{{ "{{ " }}{{ card }}_value{{ " }}" }}</div>
+              <div className="text-sm text-gray-500 mt-1">{{ "{{ " }}{{ card }}_change{{ " }}" }}% from last period</div>
+            </div>
+            {%- endfor %}
+          </div>
+
+          {/* Right Cards */}
+          <div className="space-y-6">
+            {%- for card in cards[(cards|length * 0.75)|int:] %}
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">{{ card|title }}</h3>
+              <div className="text-3xl font-bold text-green-600">{{ "{{ " }}{{ card }}_value{{ " }}" }}</div>
+              <div className="text-sm text-gray-500 mt-1">{{ "{{ " }}{{ card }}_change{{ " }}" }}% from last period</div>
+            </div>
+            {%- endfor %}
+          </div>
+        </div>
+
+        {/* Lanes Section - Vertical Columns */}
+        <div className="grid grid-cols-{{ rendered_charts|length }} gap-6 mb-8">
+          {%- for lane in rendered_charts %}
+          <div className="space-y-6">
+            {%- for chart in lane %}
+            <div className="bg-white rounded-lg shadow p-6">
+              {{ chart|safe }}
+            </div>
+            {%- endfor %}
+          </div>
+          {%- endfor %}
+        </div>
+
+        {%- if include_table %}
+        {/* Data Table */}
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-800">Data Table</h3>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Value
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Category
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {sampleData.map((row, index) => (
+                  <tr key={index}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {row.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {row.value}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {row.category}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {%- endif %}
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
