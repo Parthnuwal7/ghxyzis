@@ -1,0 +1,104 @@
+# Root level .gitignore for Frontend + Backend project
+
+# ===== FRONTEND (React/TypeScript/Vite) =====
+# Dependencies
+frontend/node_modules/
+frontend/.pnpm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Build outputs
+frontend/dist/
+frontend/build/
+frontend/.next/
+frontend/out/
+
+# Environment files
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Vite
+frontend/.vite/
+
+# TypeScript
+frontend/*.tsbuildinfo
+
+# ===== BACKEND (Python/FastAPI) =====
+# Python
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+backend/*.so
+backend/.Python
+backend/build/
+backend/develop-eggs/
+backend/dist/
+backend/downloads/
+backend/eggs/
+backend/.eggs/
+backend/lib/
+backend/lib64/
+backend/parts/
+backend/sdist/
+backend/var/
+backend/wheels/
+backend/*.egg-info/
+backend/.installed.cfg
+backend/*.egg
+backend/MANIFEST
+
+# Virtual environments
+backend/venv/
+backend/env/
+backend/ENV/
+backend/env.bak/
+backend/venv.bak/
+
+# Environment files
+backend/.env
+backend/.env.local
+
+# FastAPI/Uvicorn
+backend/*.log
+
+# Database
+backend/*.db
+backend/*.sqlite3
+
+# ===== GENERAL =====
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Temporary folders
+tmp/
+temp/
+
+# Git
+*.orig
